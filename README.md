@@ -63,7 +63,7 @@ sudo sysctl -p
 **Windows:**
 To check:
 ```
-$ wls --list # Get default machine name. Usually docker-desktop
+$ wsl --list # Get default machine name. Usually docker-desktop
 $ wsl -d docker-desktop
 $ cat /proc/sys/vm/max_map_count
 
@@ -130,6 +130,12 @@ $ sudo bin/composer dumpautoload
 **Web server:** http://localhost/
 
 **Local emails:** http://localhost:8025
+
+**Grafana:** http://localhost:3000 (admin/admin)
+
+**Kibana:** http://localhost:5601
+
+**Prometheus:** http://localhost:9090
 
 ### Features commands
 
