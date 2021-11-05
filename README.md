@@ -110,7 +110,17 @@ $ sudo bin/stop
 $ sudo bin/start
 ```
 
-5. Fix unexpected errors. You may want to run the following commands to prevent unexpected errors may happen during execute magento cli
+5. Enable Varnish Caching
+- Go to Store > Configuration > Advanced > System > Full Page Cache > uncheck `use system value` of Caching Application then set to `Varnish Cache`
+- Run the following command from your host to correct caching host in docker `$ sudo bin/magento setup:config:set --http-cache-hosts=varnish`
+- How to use Varnish in CLI:
+```
+# Purge all cache manually
+$ sudo bin/shell
+$ curl -H "X-Magento-Tags-Pattern: .*" -X PURGE http://varnish
+```
+
+6. Fix unexpected errors. You may want to run the following commands to prevent unexpected errors may happen during execute magento cli
 ```
 $ sudo bin/composer dumpautoload
 ```
