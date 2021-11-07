@@ -8,4 +8,6 @@ varnishd \
 -s $VARNISH_STORAGE \
 $VARNISH_DAEMON_OPTIONS
 
+nohup ./prometheus_varnish_exporter &
+
 /usr/bin/$VARNISH_CONTAINER_LOG_TYPE

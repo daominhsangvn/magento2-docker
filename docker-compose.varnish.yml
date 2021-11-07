@@ -64,8 +64,11 @@ services:
       context: .
       dockerfile: build/varnish/Dockerfile
     hostname: varnish
+    expose:
+      - "9131"
     ports:
       - "12390:80"
+      - "9131:9131"
     networks:
       - magento-network
     depends_on:

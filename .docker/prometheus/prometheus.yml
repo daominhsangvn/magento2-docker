@@ -11,6 +11,10 @@ scrape_configs:
     static_configs:
       - targets: ["node-exporter:9100"]
 
+  - job_name: "varnish"
+    static_configs:
+      - targets: ["varnish:9131"]
+
 #remote_write:
 #  - url: "localhost:9090/receive"
 #    basic_auth:
