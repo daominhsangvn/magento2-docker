@@ -67,7 +67,7 @@ services:
     expose:
       - "9131"
     ports:
-      - "12390:80"
+      - "80:80"
     networks:
       - magento-network
     depends_on:
