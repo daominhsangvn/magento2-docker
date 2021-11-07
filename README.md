@@ -63,7 +63,7 @@ sudo sysctl -p
 **Windows:**
 To check:
 ```
-$ wls --list # Get default machine name. Usually docker-desktop
+$ wsl --list # Get default machine name. Usually docker-desktop
 $ wsl -d docker-desktop
 $ cat /proc/sys/vm/max_map_count
 
@@ -108,6 +108,9 @@ $ sudo docker-compose -f docker-compose.varnish.yml up -d
 # light (without Varnish)
 $ sudo bin/stop
 $ sudo bin/start
+
+## Both
+$ sudo bin/composer dumpautoload
 ```
 
 5. Enable Varnish Caching
@@ -120,16 +123,17 @@ $ sudo bin/shell
 $ curl -H "X-Magento-Tags-Pattern: .*" -X PURGE http://varnish
 ```
 
-6. Fix unexpected errors. You may want to run the following commands to prevent unexpected errors may happen during execute magento cli
-```
-$ sudo bin/composer dumpautoload
-```
-
 ### Panels
 
 **Web server:** http://localhost/
 
 **Local emails:** http://localhost:8025
+
+**Grafana:** http://localhost:3000 (admin/admin)
+
+**Kibana:** http://localhost:5601
+
+**Prometheus:** http://localhost:9090
 
 ### Features commands
 
@@ -160,9 +164,11 @@ $ sudo bin/composer dumpautoload
 ## TroubleShooting
 > Warning: include(/var/www/html/vendor/composer/../../generated/code/Magento/Framework/App/ResourceConnection/Proxy.php): failed to open stream: No such file or directory in /var/www/html/vendor/composer/ClassLoader.php on line 571
 
-Try to run following command: `$ sudo bin/composer dumpautoload`
+Run the following command: `$ sudo bin/composer dumpautoload`
 
 > There has been an error processing your request
+
+> The directory "/var/www/html/generated/code/Magento" cannot be deleted Warning!rmdir(/var/www/html/generated/code/Magento): Directory not empty
 
 ```
 $ sudo bin/magento setup:upgrade
@@ -180,6 +186,7 @@ $ sudo bin/magento config:set dev/css/minify_files 0
 $ bin/magento setup:static-content:deploy
 $ bin/magento cache:clean config
 ```
+
 
 ### References
 Thanks to following repos, i have success to run Magento 2 in Docker without suffering from setup from scratch.
