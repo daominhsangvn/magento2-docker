@@ -1,6 +1,4 @@
-FROM varnish:6.4
-
-MAINTAINER echo <echo.magento@gmail.com>
+FROM varnish:6.5.1
 
 ARG ENV_TYPE
 ENV ENV_TYPE ${ENV_TYPE:-development}
