@@ -2,6 +2,13 @@ FROM php:7.4-apache
 
 ENV XDEBUG_PORT 9000
 
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential \
+&& curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+&& DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
+&& npm i -g grunt-cli yarn
+
+
 # Install System Dependencies
 
 RUN apt-get update \
@@ -62,14 +69,6 @@ RUN apt-get update \
   	# php-pear \
   	&& pecl install oauth \
   	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
-
-
-# Install Node, NVM, NPM and Grunt
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential \
-&& curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-&& DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
-&& npm i -g grunt-cli yarn
 
 # Install Composer
 
