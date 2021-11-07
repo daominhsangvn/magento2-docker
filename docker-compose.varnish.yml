@@ -9,8 +9,8 @@ services:
       - "9001:9000" # xdebug
     volumes:
       - ./src:/var/www/html
-      - ~/.composer/cache:/var/www/.composer/cache
-      - ~/.npm:/var/www/.npm
+      - composercachedata:/var/www/.composer/cache
+      - npmcachedata:/var/www/.npm
       - ./.docker/php/conf.d/memory_limit.ini:/usr/local/etc/php/conf.d/memory_limit.ini
     environment:
       XDEBUG_CONFIG: "remote_host=localhost"
@@ -68,7 +68,6 @@ services:
       - "9131"
     ports:
       - "12390:80"
-      - "9131:9131"
     networks:
       - magento-network
     depends_on:
@@ -143,7 +142,6 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
     restart: unless-stopped
     volumes:
       - ./.docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -190,6 +188,8 @@ networks:
     driver: bridge
 
 volumes:
+  composercachedata:
+  npmcachedata:
   dbdata:
   elasticsearchdata:
   grafanadata:
