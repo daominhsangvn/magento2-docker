@@ -34,10 +34,6 @@ ENV VARNISH_CONTAINER_LOG_TYPE ${VARNISH_LOG_TYPE:-"varnishncsa"}
 
 WORKDIR /etc/varnish
 
-# Download Varnish Exporter
-RUN apt-get update && apt-get install -y wget
-RUN wget -c https://github.com/jonnenauha/prometheus_varnish_exporter/releases/download/1.6/prometheus_varnish_exporter-1.6.linux-386.tar.gz -O - | tar -xz prometheus_varnish_exporter-1.6.linux-386/prometheus_varnish_exporter --strip-components 1
-
 COPY /build/varnish/start.sh /usr/bin/varnish-start.sh
 
 RUN chmod +x /usr/bin/varnish-start.sh
