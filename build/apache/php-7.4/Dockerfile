@@ -127,8 +127,8 @@ RUN chmod 777 -Rf /var/www /var/www/.* \
 WORKDIR /var/filebeat
 
 # Install FileBeat
-RUN curl https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.15.1-linux-x86_64.tar.gz | tar -xz
-ADD /.docker/php/filebeat/modules.d/apache.yml /var/filebeat/filebeat-7.15.1-linux-x86_64/modules.d/apache.yml
+RUN curl https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.14.2-linux-x86_64.tar.gz | tar -xz
+ADD /.docker/php/filebeat/modules.d/apache.yml /var/filebeat/filebeat-7.14.2-linux-x86_64/modules.d/apache.yml
 
 VOLUME /var/www/html
 WORKDIR /var/www/html

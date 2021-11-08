@@ -119,7 +119,7 @@ services:
       - magento-network
 
   kibana:
-    image: kibana:7.15.1
+    image: kibana:7.14.2
     hostname: kibana
 #    volumes:
 #      - ./.docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
