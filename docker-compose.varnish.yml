@@ -17,6 +17,7 @@ services:
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
+      - elasticsearch
     links:
       - db
     networks:
@@ -110,16 +111,24 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
     restart: unless-stopped
+    depends_on:
+      - prometheus
     ports:
       - "3000:3000"
     networks:
       - magento-network
 
   kibana:
-    image: kibana:7.14.2
+    image: kibana:7.15.1
     hostname: kibana
+#    volumes:
+#      - ./.docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
+    depends_on:
+      - elasticsearch
     networks:
       - magento-network
 
