@@ -5,19 +5,17 @@ services:
       context: .
       dockerfile: build/apache/php-7.4/Dockerfile
     ports:
-      - "8080:80"
-#      - "9001:9000" # xdebug
+      - "80:80"
+      - "9001:9000" # xdebug
     volumes:
       - ./src:/var/www/html
       - ~/.composer/cache:/var/www/.composer/cache
       - ~/.npm:/var/www/.npm
-      - ./.docker/php/conf.d/memory_limit.ini:/usr/local/etc/php/conf.d/memory_limit.ini
     environment:
       XDEBUG_CONFIG: "remote_host=localhost"
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
-      - elasticsearch
     links:
       - db
     networks:
@@ -51,43 +49,11 @@ services:
     networks:
       - magento-network
 
-  varnish:
-    build:
-      context: .
-      dockerfile: build/varnish/Dockerfile
-    hostname: varnish
-    expose:
-      - "9131" # Exporter
+  mailhog:
+    image: mailhog/mailhog
     ports:
-      - "80:80"
-    networks:
-      - magento-network
-    depends_on:
-      - apache
-    volumes:
-      - ./build/varnish/varnish6.vcl:/etc/varnish/default.vcl
-      - ./build/varnish/varnish.secret:/etc/varnish/secret
-    environment:
-      - CACHE_SIZE=64M
-
-  elasticsearch:
-    build:
-      context: .
-      dockerfile: build/elasticsearch/Dockerfile
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - node.name=node-1
-      - cluster.initial_master_nodes=node-1
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elasticsearchdata:/usr/share/elasticsearch/data
-    expose:
-      - "9200"
+      - 1025:1025
+      - 8025:8025
     networks:
       - magento-network
 
@@ -97,4 +63,3 @@ networks:
 
 volumes:
   dbdata:
-  elasticsearchdata:
