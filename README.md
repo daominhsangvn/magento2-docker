@@ -203,6 +203,36 @@ $ bin/magento setup:static-content:deploy
 $ bin/magento cache:clean config
 ```
 
+### Useful Commands:
+**Refresh**
+```
+# Development Mode
+$ sudo bin/magento setup:upgrade && sudo bin/magento setup:di:compile && sudo bin/magento cache:clean && sudo bin/magento cache:flush
+
+# Production Mode
+$ sudo bin/magento setup:upgrade && sudo bin/magento setup:di:compile && sudo bin/magento setup:static-content:deploy && sudo bin/magento cache:clean && sudo bin/magento cache:flush
+```
+
+**Disable 2FA**
+```
+$ sudo bin/magento module:disable Magento_TwoFactorAuth
+# Then [Refresh]
+```
+
+**Set Production Mode**
+```
+# SSH to container
+$ sudo bin/shell
+
+# Remove generated code
+$ rm -r generated/*/*
+
+# then exit the SSH with $ exit
+# Set Production mode
+$ sudo bin/magento deploy:mode:set production
+
+# Then [Refresh]
+```
 
 ### References
 Thanks to following repos, i have success to run Magento 2 in Docker without suffering from setup from scratch.

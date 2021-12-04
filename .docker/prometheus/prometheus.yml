@@ -13,7 +13,7 @@ scrape_configs:
 
   - job_name: "varnish"
     static_configs:
-      - targets: ["varnish:9131"]
+      - targets: ["varnish:9101"]
 
 #remote_write:
 #  - url: "localhost:9090/receive"

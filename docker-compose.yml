@@ -6,9 +6,6 @@ services:
       dockerfile: build/magento/apache/php-7.4/Dockerfile
     expose:
       - "80"
-#    ports:
-#      - "8080:80"
-#      - "9001:9000" # xdebug
     volumes:
       - ./src:/var/www/html
       - ~/.composer/cache:/var/www/.composer/cache
@@ -24,6 +21,27 @@ services:
       - db
     networks:
       - magento
+    labels:
+      co.elastic.logs/module: 'apache2'
+      co.elastic.logs/fileset.stdout: 'access'
+      co.elastic.logs/fileset.stderr: 'error'
+
+  beat:
+    build:
+      context: build/magento/filebeat/
+      args:
+        ELK_VERSION: $ELK_VERSION
+        OP_ES: $OP_ES
+        OP_LS: $OP_LS
+    hostname: beat
+    environment:
+      - ./.docker/apache/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - magento
+    depends_on:
+      - apache
 
   db:
     restart: always
@@ -131,3 +149,4 @@ networks:
 volumes:
   dbdata:
   elasticsearchdata:
+  logsdata

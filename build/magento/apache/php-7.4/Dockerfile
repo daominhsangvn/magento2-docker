@@ -123,12 +123,5 @@ RUN chmod 777 -Rf /var/www /var/www/.* \
 	&& a2enmod rewrite \
 	&& a2enmod headers
 
-
-WORKDIR /var/filebeat
-
-# Install FileBeat
-RUN curl https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.14.2-linux-x86_64.tar.gz | tar -xz
-ADD /.docker/php/filebeat/modules.d/apache.yml /var/filebeat/filebeat-7.14.2-linux-x86_64/modules.d/apache.yml
-
 VOLUME /var/www/html
 WORKDIR /var/www/html
