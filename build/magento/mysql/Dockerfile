@@ -2,5 +2,10 @@ ARG MYSQL_VERSION
 
 FROM mysql:${MYSQL_VERSION}
 
-RUN mkdir -p /var/log/mysql
-RUN chown mysql:mysql /var/log/mysql
+#RUN mkdir -p /var/log/mysql
+#RUN chown mysql:mysql /var/log/mysql
+ADD ./build/magento/mysql/initdb/01-create-db.sql /docker-entrypoint-initdb.d
+ADD ./build/magento/mysql/my.conf /etc/mysql/conf.d
+
+EXPOSE 3306:3306
+EXPOSE 33060:33060
