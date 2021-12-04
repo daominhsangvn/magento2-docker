@@ -32,11 +32,9 @@ services:
       dockerfile: build/magento/filebeat/Dockerfile
       args:
         ELK_VERSION: $ELK_VERSION
-        OP_ES: $OP_ES
-        OP_ES_USERNAME: $OP_ES_USERNAME
-        OP_ES_PASSWORD: $OP_ES_PASSWORD
-        OP_LS: $OP_LS
     hostname: beat
+    restart: on-failure
+    command: filebeat -e -strict.perms=false -E output.logstash.hosts=["$OP_LS"]
     volumes:
       - ./.docker/apache/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
