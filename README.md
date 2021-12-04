@@ -76,21 +76,21 @@ $ cat /proc/sys/vm/max_map_count
 Continue to run the following command to set `vm.max_map_count` setting:
 ```
 $ sysctl -w vm.max_map_count=262144
-
 ```
 
 
 ### How to use
 1. Start all containers with command
 ```
-# with Varnish
-$ sudo docker-compose -f docker-compose.varnish.yml up -d
-
-# light (without Varnish)
-$ sudo bin/start
+$ sudo docker-compose up -d
 ```
 
-2. Download. You need to sign up and [get the access keys](https://marketplace.magento.com/customer/accessKeys/), You will receive a private (Password) and public (Username) key that we will use to download Magento
+2. Grant execute permission to shell scripts
+```
+$ sudo chmod +x bin/*
+```
+
+3. Download. You need to sign up and [get the access keys](https://marketplace.magento.com/customer/accessKeys/), You will receive a private (Password) and public (Username) key that we will use to download Magento
 ```
 $ sudo bin/shell
 $ rm .gitkeep
@@ -99,22 +99,15 @@ $ rm .gitkeep
 $ install-magento2 2.4.3-p1
 ```
 
-3. Setup. You must change the base url to your domain and server ip but keeps the others. You can change the administrator credentials as you want.
+4. Setup. You must change the base url to your domain and server ip but keeps the others. You can change the administrator credentials as you want.
 ```
 $ bin/magento setup:install --base-url=http://<your-domain-or-ip-or-localhost> --db-host=db --db-name=magento --db-user=magento --db-password=magento --admin-firstname=Administrator --admin-lastname=Administrator --admin-email=administrator@admin.com --admin-user=administrator --admin-password=administrator@123 --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1 --elasticsearch-host=elasticsearch
 ```
 
-4. Restart. Refresh everything
+5. Restart. Refresh everything
 ```
-# with Varnish
-$ sudo docker-compose -f docker-compose.varnish.yml down
-$ sudo docker-compose -f docker-compose.varnish.yml up -d
-
-# light (without Varnish)
-$ sudo bin/stop
-$ sudo bin/start
-
-## Both
+$ sudo docker-compose down
+$ sudo docker-compose up -d
 $ sudo bin/composer dumpautoload
 ```
 
@@ -140,6 +133,17 @@ $ curl -H "X-Magento-Tags-Pattern: .*" -X PURGE http://varnish
 **Kibana:** http://localhost:5601 (elastic/changeme)
 
 **Prometheus:** http://localhost:9090
+
+```
+Ports
+
+5044: Logstash Beats input
+5000: Logstash TCP input
+9600: Logstash monitoring API
+9200: Elasticsearch HTTP
+9300: Elasticsearch TCP transport
+5601: Kibana
+```
 
 
 ### Features commands
