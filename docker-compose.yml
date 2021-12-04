@@ -4,9 +4,11 @@ services:
     build:
       context: .
       dockerfile: build/magento/apache/php-7.4/Dockerfile
-    ports:
-      - "8080:80"
-    #      - "9001:9000" # xdebug
+    expose:
+      - "80"
+#    ports:
+#      - "8080:80"
+#      - "9001:9000" # xdebug
     volumes:
       - ./src:/var/www/html
       - ~/.composer/cache:/var/www/.composer/cache
@@ -56,10 +58,11 @@ services:
       context: .
       dockerfile: build/magento/varnish/Dockerfile
     hostname: varnish
-    expose:
-      - "9131" # Exporter
+#    expose:
+#      - "9131" # Exporter
     ports:
       - "80:80"
+      - "9131:9131"
     networks:
       - magento
     depends_on:
