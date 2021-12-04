@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: build/magento/mysql/Dockerfile
       args:
-        ELK_VERSION: $ELK_VERSION
+        MYSQL_VERSION: $MYSQL_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./.docker/mysql/initdb:/docker-entrypoint-initdb.d
