@@ -62,6 +62,14 @@ services:
     networks:
       - magento
 
+#  db-exporter:
+#    image: prom/mysqld-exporter
+#    ports:
+#      - '9104:9104'
+#    environment:
+#      DATA_SOURCE_NAME: root:root@(db:3306)/magento
+#    command: /bin/mysqld_exporter collect.binlog_size=true collect.info_schema.processlist=true
+
   redis:
     image: redis
     expose:

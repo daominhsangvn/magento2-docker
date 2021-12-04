@@ -1,7 +1,4 @@
 [mysqld]
-# bind-address            = 0.0.0.0
-# max_connections         = 505
-# max_user_connections    = 500
 log_error           = /var/log/mysql/error.log
 log_slow_queries    = /var/log/mysql/slow.log
 long_query_time     = 2
