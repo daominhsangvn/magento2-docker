@@ -33,6 +33,8 @@ services:
       args:
         ELK_VERSION: $ELK_VERSION
         OP_ES: $OP_ES
+        OP_ES_USERNAME: $OP_ES_USERNAME
+        OP_ES_PASSWORD: $OP_ES_PASSWORD
         OP_LS: $OP_LS
     hostname: beat
     environment:
