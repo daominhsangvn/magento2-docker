@@ -11,10 +11,10 @@ filebeat.autodiscover:
 processors:
   - add_cloud_metadata: ~
 
-output.elasticsearch:
-  hosts: '${OP_ES}'
-  username: '${OP_ES_USERNAME}'
-  password: '${OP_ES_PASSWORD}'
+#output.elasticsearch:
+#  hosts: '${OP_ES}'
+#  username: '${OP_ES_USERNAME}'
+#  password: '${OP_ES_PASSWORD}'
 
 output.logstash:
   hosts: ["${OP_LS}"]
