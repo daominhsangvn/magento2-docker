@@ -149,4 +149,3 @@ networks:
 volumes:
   dbdata:
   elasticsearchdata:
-  logsdata
