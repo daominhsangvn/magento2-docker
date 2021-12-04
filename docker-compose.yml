@@ -34,15 +34,16 @@ services:
         ELK_VERSION: $ELK_VERSION
     hostname: beat
     restart: on-failure
-    command: --strict.perms=false
+    command: --strict.perms=false -E output.logstash.hosts=["${LOGSTASH_HOST}"]
+    user: root # To read the docker socket
     volumes:
       - ./.docker/apache/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+#    environment:
+#      - LOGSTASH_HOST=$LOGSTASH_HOST
     networks:
       - magento
-    depends_on:
-      - apache
 
   db:
     restart: always
