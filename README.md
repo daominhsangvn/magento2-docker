@@ -124,16 +124,18 @@ $ curl -H "X-Magento-Tags-Pattern: .*" -X PURGE http://varnish
 ```
 
 ### Panels
-
+#### Magento
 **Web server:** http://localhost/
 
 **Local emails:** http://localhost:8025
 
+#### Operation
 **Grafana:** http://localhost:3000 (admin/admin)
 
-**Kibana:** http://localhost:5601
+**Kibana:** http://localhost:5601 (elastic/changeme)
 
 **Prometheus:** http://localhost:9090
+
 
 ### Features commands
 
@@ -168,12 +170,17 @@ Run the following command: `$ sudo bin/composer dumpautoload`
 
 > There has been an error processing your request
 
-> The directory "/var/www/html/generated/code/Magento" cannot be deleted Warning!rmdir(/var/www/html/generated/code/Magento): Directory not empty
-
 ```
 $ sudo bin/magento setup:upgrade
 $ sudo bin/magento setup:di:compile
 $ sudo bin/magento setup:static-content:deploy
+$ sudo bin/magento cache:clean
+$ sudo bin/magento cache:flush
+```
+
+> The directory "/var/www/html/generated/code/Magento" cannot be deleted Warning!rmdir(/var/www/html/generated/code/Magento): Directory not empty
+
+```
 $ sudo bin/magento cache:clean
 $ sudo bin/magento cache:flush
 ```

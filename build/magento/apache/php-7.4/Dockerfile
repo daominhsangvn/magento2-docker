@@ -90,10 +90,10 @@ RUN yes | pecl install xdebug-2.9.8 && \
 
 # Install Mhsendmail
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
-   && mkdir /opt/go \
-   && export GOPATH=/opt/go \
-   && go get github.com/mailhog/mhsendmail
+#RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
+#   && mkdir /opt/go \
+#   && export GOPATH=/opt/go \
+#   && go get github.com/mailhog/mhsendmail
 
 # Install Magerun 2
 

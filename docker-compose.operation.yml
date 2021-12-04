@@ -1,0 +1,113 @@
+version: '3'
+services:
+  op-elasticsearch:
+    build:
+      context: build/elk/elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    hostname: op-elasticsearch
+    environment:
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    volumes:
+      - ./build/elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - op-elasticsearchdata:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - operation
+
+  op-kibana:
+    build:
+      context: build/elk/kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    hostname: op-kibana
+    volumes:
+      - ./build/elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+    ports:
+      - "5601:5601"
+    depends_on:
+      - op-elasticsearch
+    networks:
+      - operation
+
+  op-logstash:
+    build:
+      context: build/elk/logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./build/elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
+      - ./build/elk/logstash/pipeline:/usr/share/logstash/pipeline:ro,z
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - operation
+    depends_on:
+      - op-elasticsearch
+
+  op-grafana:
+    image: grafana/grafana:8.2.3
+    hostname: op-grafana
+    volumes:
+      - op-grafanadata:/var/lib/grafana
+      - ./.docker/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    depends_on:
+      - op-prometheus
+    ports:
+      - "3000:3000"
+    networks:
+      - operation
+
+  op-prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    volumes:
+      - ./.docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - op-prometheusdata:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      - operation
+
+  op-alertmanager:
+    image: prom/alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./.docker/alertmanager/:/etc/alertmanager/
+    networks:
+      - operation
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+networks:
+  operation:
+    driver: bridge
+
+volumes:
+  op-elasticsearchdata:
+  op-grafanadata:
+  op-prometheusdata:

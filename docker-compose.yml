@@ -3,14 +3,14 @@ services:
   apache:
     build:
       context: .
-      dockerfile: build/apache/php-7.4/Dockerfile
+      dockerfile: build/magento/apache/php-7.4/Dockerfile
     ports:
       - "8080:80"
-      - "9001:9000" # xdebug
+    #      - "9001:9000" # xdebug
     volumes:
       - ./src:/var/www/html
-      - composercachedata:/var/www/.composer/cache
-      - npmcachedata:/var/www/.npm
+      - ~/.composer/cache:/var/www/.composer/cache
+      - ~/.npm:/var/www/.npm
       - ./.docker/php/conf.d/memory_limit.ini:/usr/local/etc/php/conf.d/memory_limit.ini
     environment:
       XDEBUG_CONFIG: "remote_host=localhost"
@@ -21,7 +21,7 @@ services:
     links:
       - db
     networks:
-      - magento-network
+      - magento
 
   db:
     restart: always
@@ -35,54 +35,45 @@ services:
     expose:
       - "3306"
     networks:
-      - magento-network
+      - magento
 
   redis:
     image: redis
     expose:
-     - "6379"
+      - "6379"
     networks:
-      - magento-network
+      - magento
 
   redis-session:
     image: redis
     expose:
-     - "6379"
+      - "6379"
     networks:
-      - magento-network
-
-  mailhog:
-    image: mailhog/mailhog
-    expose:
-      - "1025"
-    ports:
-      - "8025:8025"
-    networks:
-      - magento-network
+      - magento
 
   varnish:
     build:
       context: .
-      dockerfile: build/varnish/Dockerfile
+      dockerfile: build/magento/varnish/Dockerfile
     hostname: varnish
     expose:
-      - "9131"
+      - "9131" # Exporter
     ports:
       - "80:80"
     networks:
-      - magento-network
+      - magento
     depends_on:
       - apache
     volumes:
-      - ./build/varnish/varnish6.vcl:/etc/varnish/default.vcl
-      - ./build/varnish/varnish.secret:/etc/varnish/secret
+      - ./build/magento/varnish/varnish6.vcl:/etc/varnish/default.vcl
+      - ./build/magento/varnish/varnish.secret:/etc/varnish/secret
     environment:
       - CACHE_SIZE=64M
 
   elasticsearch:
     build:
       context: .
-      dockerfile: build/elasticsearch/Dockerfile
+      dockerfile: build/magento/elasticsearch/Dockerfile
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -95,111 +86,15 @@ services:
         hard: -1
     volumes:
       - elasticsearchdata:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    networks:
-      - magento-network
-
-  grafana:
-    image: grafana/grafana:8.2.3
-    hostname: grafana
-    volumes:
-      - grafanadata:/var/lib/grafana
-      - ./.docker/grafana/provisioning:/etc/grafana/provisioning
-    environment:
-      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-      - GF_USERS_ALLOW_SIGN_UP=false
-    restart: unless-stopped
-    depends_on:
-      - prometheus
-    ports:
-      - "3000:3000"
-    networks:
-      - magento-network
-
-  kibana:
-    image: kibana:7.14.2
-    hostname: kibana
-#    volumes:
-#      - ./.docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - magento-network
-
-  node-exporter:
-    image: prom/node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - --collector.filesystem.ignored-mount-points
-      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     expose:
-      - "9100"
+      - "9200"
     networks:
-      - magento-network
-    restart: always
-
-  prometheus:
-    image: prom/prometheus:latest
-    restart: unless-stopped
-    volumes:
-      - ./.docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheusdata:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
-    ports:
-      - "9090:9090"
-    networks:
-      - magento-network
-
-  alertmanager:
-    image: prom/alertmanager
-    ports:
-      - "9093:9093"
-    volumes:
-      - ./.docker/alertmanager/:/etc/alertmanager/
-    networks:
-      - magento-network
-    restart: always
-    command:
-      - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'
-
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "8081:8080"
-    networks:
-      - magento-network
-    restart: always
+      - magento
 
 networks:
-  magento-network:
+  magento:
     driver: bridge
 
 volumes:
-  composercachedata:
-  npmcachedata:
   dbdata:
   elasticsearchdata:
-  grafanadata:
-  prometheusdata:
