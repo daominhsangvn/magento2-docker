@@ -18,3 +18,12 @@ processors:
 
 #output.logstash:
 #  hosts: ["${LOGSTASH_HOST}"]
+
+# TEST & CONFIRM
+output.console:
+  enabled: true
+  codec.json:
+    pretty: true
+    escape_html: false
+
+logging.metrics.enabled: false
