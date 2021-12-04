@@ -92,6 +92,10 @@ services:
       - ./build/magento/varnish/varnish.secret:/etc/varnish/secret
     environment:
       - CACHE_SIZE=64M
+    labels:
+      co.elastic.logs/module: 'apache2'
+      co.elastic.logs/fileset.stdout: 'access'
+      co.elastic.logs/fileset.stderr: 'error'
 
   elasticsearch:
     build:
