@@ -28,7 +28,8 @@ services:
 
   beat:
     build:
-      context: build/magento/filebeat/
+      context: .
+      dockerfile: build/magento/filebeat/Dockerfile
       args:
         ELK_VERSION: $ELK_VERSION
         OP_ES: $OP_ES
