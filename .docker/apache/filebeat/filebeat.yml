@@ -17,8 +17,4 @@ processors:
 #  password: '${OP_ES_PASSWORD}'
 
 output.logstash:
-  hosts: ["${LOGSTASH_HOST}"]
-
-# TEST & CONFIRM
-output.console:
-  enabled: true
+  hosts: ["${LOGSTASH_HOST:}"]
