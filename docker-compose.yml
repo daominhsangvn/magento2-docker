@@ -47,11 +47,15 @@ services:
 
   db:
     restart: always
-    image: mysql:8.0.27
+    build:
+      context: .
+      dockerfile: build/magento/mysql/Dockerfile
+      args:
+        ELK_VERSION: $ELK_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./.docker/mysql/initdb:/docker-entrypoint-initdb.d
-      - ./.docker/mysql/my.conf:/etc/mysql/conf.d/config-file.cnf"
+      - ./.docker/mysql/my.conf:/etc/mysql/conf.d/config-file.cnf
       - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root

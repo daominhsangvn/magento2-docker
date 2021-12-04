@@ -1,13 +1,13 @@
 # config file version
 apiVersion: 1
 
-# list of datasources that should be deleted from the database
+# list of datasources that should be deleted from the mysql
 deleteDatasources:
   - name: Prometheus
     orgId: 1
 
 # list of datasources to insert/update depending
-# whats available in the database
+# whats available in the mysql
 datasources:
   # <string, required> name of the datasource. Required
   - name: Prometheus
@@ -19,11 +19,11 @@ datasources:
     orgId: 1
     # <string> url
     url: http://op-prometheus:9090
-    # <string> database password, if used
+    # <string> mysql password, if used
     password:
-    # <string> database user, if used
+    # <string> mysql user, if used
     user:
-    # <string> database name, if used
+    # <string> mysql name, if used
     database:
     # <bool> enable/disable basic auth
     basicAuth: false
