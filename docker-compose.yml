@@ -34,7 +34,7 @@ services:
         ELK_VERSION: $ELK_VERSION
     hostname: beat
     restart: on-failure
-    command: --strict.perms=false -E output.logstash.hosts=["${LOGSTASH_HOST}"]
+    command: --strict.perms=false
     user: root # To read the docker socket
     volumes:
       - ./.docker/apache/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro

@@ -16,14 +16,9 @@ processors:
 #  username: '${OP_ES_USERNAME}'
 #  password: '${OP_ES_PASSWORD}'
 
-#output.logstash:
-#  hosts: ["${LOGSTASH_HOST}"]
+output.logstash:
+  hosts: ["${LOGSTASH_HOST}"]
 
 # TEST & CONFIRM
 output.console:
   enabled: true
-  codec.json:
-    pretty: true
-    escape_html: false
-
-logging.metrics.enabled: false
