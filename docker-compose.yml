@@ -23,8 +23,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      name: 'apache'
 
   beat:
     container_name: log-shipper
