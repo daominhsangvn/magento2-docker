@@ -69,6 +69,7 @@ services:
 #    command: /bin/mysqld_exporter collect.binlog_size=true collect.info_schema.processlist=true
 
   redis:
+    container_name: redis
     image: redis
     expose:
       - "6379"
@@ -77,6 +78,7 @@ services:
     restart: unless-stopped
 
   redis-session:
+    container_name: session
     image: redis
     expose:
       - "6379"
@@ -106,6 +108,7 @@ services:
     restart: unless-stopped
 
   elasticsearch:
+    container_name: elasticsearch
     build:
       context: .
       dockerfile: build/magento/elasticsearch/Dockerfile
@@ -128,6 +131,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
+    container_name: node-exporter
     image: prom/node-exporter
     volumes:
       - /proc:/host/proc:ro
@@ -145,6 +149,7 @@ services:
     restart: unless-stopped
 
   cadvisor:
+    container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor
     volumes:
       - /:/rootfs:ro
