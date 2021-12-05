@@ -19,7 +19,7 @@ filebeat.autodiscover:
     - type: docker
       templates:
         - condition:
-            equals:
+            contains:
               docker.container.labels.name: "apache"
           config:
             - module: apache2
