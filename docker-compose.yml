@@ -38,7 +38,7 @@ services:
     command: filebeat -e -strict.perms=false
     user: root # To read the docker socket
     volumes:
-      - ./.docker/apache/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./.docker/magento/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
@@ -62,6 +62,8 @@ services:
       - "3306"
     networks:
       - magento
+    labels:
+      co.elastic.logs/module: 'mysql'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
