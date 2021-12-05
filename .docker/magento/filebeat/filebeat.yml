@@ -3,6 +3,13 @@ filebeat.config:
     path: ${path.config}/modules.d/*.yml
     reload.enabled: false
 
+filebeat.modules:
+  - module: apache
+  - module: redis
+  - module: mysql
+  - module: elasticsearch
+  - module: php-fpm
+
 #filebeat.autodiscover:
 #  providers:
 #    - type: docker
@@ -18,7 +25,7 @@ filebeat.autodiscover:
               docker.container.image: magento2-docker_db
           config:
             - module: mysql
-              access:
+              slowlog:
                 enabled: true
                 input:
                   type: container
