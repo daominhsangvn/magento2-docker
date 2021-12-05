@@ -23,6 +23,11 @@ filebeat.autodiscover:
               docker.container.name: apache
           config:
             - module: apache2
+              access:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/${data.docker.container.id}-json.log
 #        - condition:
 #            contains:
 #              docker.container.labels.name: "database"
