@@ -26,10 +26,9 @@ filebeat.autodiscover:
             - module: mysql
               slowlog:
                 enabled: true
-                input:
-                  type: container
+                var:
                   paths:
-                    - /var/lib/mysql/${data.docker.container.id}-slow.log
+                    - /var/lib/mysql/*-slow.log
 #              error:
 #                enabled: true
 #                var.paths:
