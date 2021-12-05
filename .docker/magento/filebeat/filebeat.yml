@@ -17,11 +17,11 @@ filebeat.config:
 filebeat.autodiscover:
   providers:
     - type: docker
-      hints.enabled: true
+#      hints.enabled: true
       templates:
         - condition:
             contains:
-              docker.container.image: magento2-docker_db
+              docker.container.labels.name: "database"
           config:
             - module: mysql
               slowlog:

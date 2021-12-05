@@ -60,6 +60,8 @@ services:
       - "3306"
     networks:
       - magento
+    labels:
+      name: 'database'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
