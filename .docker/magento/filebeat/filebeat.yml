@@ -11,11 +11,11 @@ filebeat.config:
 filebeat.autodiscover:
   providers:
     - type: docker
-      hints.enabled: false
+      hints.enabled: true
       templates:
         - condition:
-            contains:
-              docker.container.name: "apache"
+            equals:
+              docker.container.name: apache
 #              docker.container.labels.somelabel: "somevalue"
           config:
             - module: apache2
@@ -28,6 +28,21 @@ filebeat.autodiscover:
                 enabled: true
                 var.paths:
                   - /var/log/apache2/error.log
+#        - condition:
+#            contains:
+#              docker.container.name: "varnish"
+#          config:
+#            - module: apache2
+#              access:
+#                enabled: true
+#                var.paths:
+#                  - /var/log/apache2/access.log
+#                  - /var/log/apache2/other_vhosts_access.log
+#                error:
+#                  enabled: true
+#                  var.paths:
+#                    - /var/log/apache2/error.log
+
 
 processors:
   - add_cloud_metadata: ~
