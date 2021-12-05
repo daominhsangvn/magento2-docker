@@ -27,7 +27,7 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/${data.docker.container.id}-json.log
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
 #        - condition:
 #            contains:
 #              docker.container.labels.name: "database"
