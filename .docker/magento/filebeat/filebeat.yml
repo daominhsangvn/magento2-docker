@@ -12,22 +12,22 @@ filebeat.autodiscover:
   providers:
     - type: docker
       hints.enabled: true
-      templates:
-        - condition:
-            equals:
-              docker.container.name: apache
-#              docker.container.labels.somelabel: "somevalue"
-          config:
-            - module: apache2
-              access:
-                enabled: true
-                var.paths:
-                  - /var/log/apache2/access.log
-                  - /var/log/apache2/other_vhosts_access.log
-              error:
-                enabled: true
-                var.paths:
-                  - /var/log/apache2/error.log
+#      templates:
+#        - condition:
+#            equals:
+#              docker.container.name: apache
+##              docker.container.labels.somelabel: "somevalue"
+#          config:
+#            - module: apache2
+#              access:
+#                enabled: true
+#                var.paths:
+#                  - /var/log/apache2/access.log
+#                  - /var/log/apache2/other_vhosts_access.log
+#              error:
+#                enabled: true
+#                var.paths:
+#                  - /var/log/apache2/error.log
 #        - condition:
 #            contains:
 #              docker.container.name: "varnish"
