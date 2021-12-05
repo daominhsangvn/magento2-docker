@@ -23,10 +23,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      co.elastic.logs/module: 'apache2'
-      co.elastic.logs/fileset.stdout: 'access'
-      co.elastic.logs/fileset.stderr: 'error'
 
   beat:
     build:
@@ -63,8 +59,6 @@ services:
       - "3306"
     networks:
       - magento
-#    labels:
-#      co.elastic.logs/module: 'mysql'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -81,9 +75,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      co.elastic.logs/module: 'redis'
-      co.elastic.logs/fileset.stdout: 'log'
 
   redis-session:
     image: redis
@@ -92,9 +83,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      co.elastic.logs/module: 'redis'
-      co.elastic.logs/fileset.stdout: 'log'
 
   varnish:
     build:
@@ -115,10 +103,6 @@ services:
     environment:
       - CACHE_SIZE=64M
     restart: unless-stopped
-    labels:
-      co.elastic.logs/module: 'apache2'
-      co.elastic.logs/fileset.stdout: 'access'
-      co.elastic.logs/fileset.stderr: 'error'
 
   elasticsearch:
     build:
