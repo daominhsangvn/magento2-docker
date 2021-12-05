@@ -28,6 +28,11 @@ filebeat.autodiscover:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              error:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
         - condition:
             equals:
               docker.container.name: varnish
@@ -38,6 +43,72 @@ filebeat.autodiscover:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              error:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+        - condition:
+            equals:
+              docker.container.name: redis
+          config:
+            - module: redis
+              log:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              slowlog:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+        - condition:
+            equals:
+              docker.container.name: session
+          config:
+            - module: redis
+              log:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              slowlog:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+        - condition:
+            equals:
+              docker.container.name: elasticsearch
+          config:
+            - module: elasticsearch
+              slowlog:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              server:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              gc:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              deprecation:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+              audit:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+
 #        - condition:
 #            contains:
 #              docker.container.labels.name: "database"
