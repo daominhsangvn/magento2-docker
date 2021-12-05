@@ -17,18 +17,22 @@ filebeat.config:
 filebeat.autodiscover:
   providers:
     - type: docker
-#      hints.enabled: true
       templates:
         - condition:
-            contains:
-              docker.container.labels.name: "database"
+            equals:
+              docker.container.name: apache
           config:
-            - module: mysql
-              slowlog:
-                enabled: true
-                var:
-                  paths:
-                    - /var/lib/mysql/*-slow.log
+            - module: apache2
+#        - condition:
+#            contains:
+#              docker.container.labels.name: "database"
+#          config:
+#            - module: mysql
+#              slowlog:
+#                enabled: true
+#                var:
+#                  paths:
+#                    - /var/lib/mysql/*-slow.log
 #              error:
 #                enabled: true
 #                var.paths:
