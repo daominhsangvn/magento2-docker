@@ -14,8 +14,8 @@ filebeat.autodiscover:
 #      hints.enabled: true
       templates:
         - condition:
-            equals:
-              docker.container.name: database
+            contains:
+              docker.container.image: magento2-docker_db
           config:
             - module: mysql
               access:
