@@ -18,8 +18,6 @@ services:
     depends_on:
       - db
       - elasticsearch
-    links:
-      - db
     networks:
       - magento
     restart: unless-stopped

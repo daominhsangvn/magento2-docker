@@ -19,25 +19,25 @@ filebeat.autodiscover:
     - type: docker
       templates:
         - condition:
-            contains:
+            equals:
               docker.container.name: apache
           config:
-            - module: apache2
+            - module: apache
               access:
                 input:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
         - condition:
-            contains:
+            equals:
               docker.container.name: varnish
-            config:
-              - module: apache2
-                access:
-                  input:
-                    type: container
-                    paths:
-                      - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+          config:
+            - module: apache
+              access:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
 #        - condition:
 #            contains:
 #              docker.container.labels.name: "database"
