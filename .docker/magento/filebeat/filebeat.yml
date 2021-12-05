@@ -8,7 +8,6 @@ filebeat.modules:
   - module: redis
   - module: mysql
   - module: elasticsearch
-  - module: php-fpm
 
 #filebeat.autodiscover:
 #  providers:
