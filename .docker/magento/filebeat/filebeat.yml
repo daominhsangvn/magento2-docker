@@ -3,10 +3,29 @@ filebeat.config:
     path: ${path.config}/modules.d/*.yml
     reload.enabled: false
 
+#filebeat.autodiscover:
+#  providers:
+#    - type: docker
+#      hints.enabled: true
 filebeat.autodiscover:
   providers:
     - type: docker
-      hints.enabled: true
+      templates:
+        - condition:
+            contains:
+              docker.container.name: "apache"
+#              docker.container.labels.somelabel: "somevalue"
+          config:
+            - module: apache2
+              access:
+                enabled: true
+                var.paths:
+                  - /var/log/apache2/access.log
+                  - /var/log/apache2/other_vhosts_access.log
+              error:
+                enabled: true
+                var.paths:
+                  - /var/log/apache2/error.log
 
 processors:
   - add_cloud_metadata: ~

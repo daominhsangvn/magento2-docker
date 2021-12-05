@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: build/magento/apache/php-7.4/Dockerfile
+    container_name: apache
     expose:
       - "80"
     volumes:
@@ -33,7 +34,6 @@ services:
       dockerfile: build/magento/filebeat/Dockerfile
       args:
         ELK_VERSION: $ELK_VERSION
-    hostname: beat
     restart: unless-stopped
     command: filebeat -e -strict.perms=false
     user: root # To read the docker socket
@@ -54,6 +54,7 @@ services:
       args:
         MYSQL_VERSION: $MYSQL_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    container_name: db
     volumes:
       - dbdata:/var/lib/mysql
     environment:
@@ -62,8 +63,8 @@ services:
       - "3306"
     networks:
       - magento
-    labels:
-      co.elastic.logs/module: 'mysql'
+#    labels:
+#      co.elastic.logs/module: 'mysql'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -99,7 +100,6 @@ services:
     build:
       context: .
       dockerfile: build/magento/varnish/Dockerfile
-    hostname: varnish
 #    expose:
 #      - "9131" # Exporter
     ports:
