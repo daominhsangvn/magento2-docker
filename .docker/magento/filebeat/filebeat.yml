@@ -12,7 +12,22 @@ filebeat.autodiscover:
   providers:
     - type: docker
       hints.enabled: true
-#      templates:
+      templates:
+        - condition:
+            equals:
+              docker.container.name: database
+          config:
+            - module: mysql
+              access:
+                enabled: true
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/mysql/${data.docker.container.id}-slow.log
+#              error:
+#                enabled: true
+#                var.paths:
+#                  - /var/lib/mysql/error.log
 #        - condition:
 #            equals:
 #              docker.container.name: apache

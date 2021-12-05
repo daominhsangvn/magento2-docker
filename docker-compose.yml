@@ -25,6 +25,7 @@ services:
     restart: unless-stopped
 
   beat:
+    container_name: log-shipper
     build:
       context: .
       dockerfile: build/magento/filebeat/Dockerfile
@@ -43,7 +44,7 @@ services:
       - magento
 
   db:
-    container_name: db
+    container_name: database
     restart: always
     build:
       context: .
