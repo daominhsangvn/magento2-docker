@@ -3,17 +3,6 @@ filebeat.config:
     path: ${path.config}/modules.d/*.yml
     reload.enabled: false
 
-#filebeat.modules:
-#  - module: apache
-#  - module: redis
-#  - module: mysql
-#  - module: elasticsearch
-
-#filebeat.autodiscover:
-#  providers:
-#    - type: docker
-#      hints.enabled: true
-
 filebeat.autodiscover:
   providers:
     - type: docker
@@ -108,50 +97,6 @@ filebeat.autodiscover:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
-
-#        - condition:
-#            contains:
-#              docker.container.labels.name: "database"
-#          config:
-#            - module: mysql
-#              slowlog:
-#                enabled: true
-#                var:
-#                  paths:
-#                    - /var/lib/mysql/*-slow.log
-#              error:
-#                enabled: true
-#                var.paths:
-#                  - /var/lib/mysql/error.log
-#        - condition:
-#            equals:
-#              docker.container.name: apache
-##              docker.container.labels.somelabel: "somevalue"
-#          config:
-#            - module: apache2
-#              access:
-#                enabled: true
-#                var.paths:
-#                  - /var/log/apache2/access.log
-#                  - /var/log/apache2/other_vhosts_access.log
-#              error:
-#                enabled: true
-#                var.paths:
-#                  - /var/log/apache2/error.log
-#        - condition:
-#            contains:
-#              docker.container.name: "varnish"
-#          config:
-#            - module: apache2
-#              access:
-#                enabled: true
-#                var.paths:
-#                  - /var/log/apache2/access.log
-#                  - /var/log/apache2/other_vhosts_access.log
-#                error:
-#                  enabled: true
-#                  var.paths:
-#                    - /var/log/apache2/error.log
 
 
 processors:
