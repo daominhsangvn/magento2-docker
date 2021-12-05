@@ -45,6 +45,7 @@ services:
 
   db:
     container_name: database
+    tty: true
     restart: always
     build:
       context: .
