@@ -11,6 +11,7 @@ filebeat.config:
 filebeat.autodiscover:
   providers:
     - type: docker
+      hints.enabled: false
       templates:
         - condition:
             contains:
