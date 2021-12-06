@@ -13,8 +13,9 @@ RUN touch /var/log/mysql/general.log && \
 ADD ./build/magento/mysql/initdb/01-create-db.sql /docker-entrypoint-initdb.d
 ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
 
+# forward mysql logs to docker log collector
 RUN ls -sf /dev/stdout /var/log/mysql/mysql-slow.log
-RUN ls -sf /dev/stderr /var/log/mysql/mysql-error.log
+RUN ls -sf /dev/stderr /var/log/mysql/error.log
 
 EXPOSE 3306:3306
 EXPOSE 33060:33060
