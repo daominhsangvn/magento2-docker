@@ -75,8 +75,6 @@ services:
     image: redis
     expose:
       - "6379"
-    volumes:
-      - ./mount/redis:/data
     networks:
       - magento
     restart: unless-stopped
@@ -84,8 +82,6 @@ services:
   redis-session:
     container_name: session
     image: redis
-    volumes:
-      - ./mount/session:/data
     expose:
       - "6379"
     networks:
@@ -128,9 +124,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    user: $USER
-    volumes:
-      - ./mount/elasticsearch:/usr/share/elasticsearch/data
     expose:
       - "9200"
     networks:
