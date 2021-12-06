@@ -19,4 +19,4 @@ ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
 EXPOSE 3306:3306
 EXPOSE 33060:33060
 
-#CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "&&", "ln", "-sf", "/proc/1/fd/1", "/var/lib/mysql/mysql-slow.log"]
+CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
