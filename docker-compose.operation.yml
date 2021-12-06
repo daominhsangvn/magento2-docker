@@ -13,7 +13,7 @@ services:
       discovery.type: single-node
     volumes:
       - ./build/elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
-      - op-elasticsearchdata:/usr/share/elasticsearch/data:z
+      - op-elasticsearchdata:/usr/share/elasticsearch/volumes:z
     ports:
       - "9200:9200"
       - "9300:9300"

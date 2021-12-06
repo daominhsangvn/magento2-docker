@@ -16,12 +16,12 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               error:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
         - condition:
             equals:
               docker.container.name: varnish
@@ -31,12 +31,12 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               error:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
         - condition:
             equals:
               docker.container.name: redis
@@ -46,12 +46,12 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               slowlog:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
         - condition:
             equals:
               docker.container.name: session
@@ -61,12 +61,12 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               slowlog:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
         - condition:
             equals:
               docker.container.name: elasticsearch
@@ -76,28 +76,43 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               server:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               gc:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               deprecation:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
               audit:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
-
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
+        - condition:
+            equals:
+              docker.container.name: database
+          config:
+            - module: mysql
+              error:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
+              slowlog:
+                input:
+                  type: container
+                  paths:
+                    - /var/lib/docker/volumes/${volumes.docker.container.id}/*-json.log
+                    - /var/lib/docker/volumes/magento2-docker_dbdata/_data/*-slow.log
 
 processors:
   - add_cloud_metadata: ~
