@@ -50,6 +50,7 @@ services:
       dockerfile: build/magento/mysql/Dockerfile
       args:
         MYSQL_VERSION: $MYSQL_VERSION
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci && ln -sf /proc/1/fd/1 /var/lib/mysql/mysql-slow.log
     cap_add:
       - SYS_NICE
     volumes:
