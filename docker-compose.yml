@@ -49,6 +49,7 @@ services:
       context: .
       dockerfile: build/magento/mysql/Dockerfile
       args:
+        MYSQL_VERSION: $MYSQL_VERSION
     cap_add:
       - SYS_NICE
     volumes:
