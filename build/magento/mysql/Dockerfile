@@ -14,7 +14,9 @@ ADD ./build/magento/mysql/initdb/01-create-db.sql /docker-entrypoint-initdb.d
 ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
 
 # forward mysql logs to docker log collector
-RUN ln -sf /proc/1/fd/1 /var/lib/mysql/mysql-slow.log
+#RUN ln -sf /proc/1/fd/1 /var/lib/mysql/mysql-slow.log
 
 EXPOSE 3306:3306
 EXPOSE 33060:33060
+
+CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "&&", "ln", "-sf", "/proc/1/fd/1", "/var/lib/mysql/mysql-slow.log"]
