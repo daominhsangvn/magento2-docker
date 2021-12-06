@@ -51,8 +51,6 @@ services:
       args:
         MYSQL_VERSION: $MYSQL_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    cap_add:
-      - SYS_NICE
     volumes:
       - dbdata:/var/lib/mysql
     environment:
