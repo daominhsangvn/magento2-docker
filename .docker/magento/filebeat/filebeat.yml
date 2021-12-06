@@ -106,12 +106,12 @@ filebeat.autodiscover:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/containers/${volumes.docker.container.id}/*-json.log
+                    - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
               slowlog:
                 input:
                   type: container
                   paths:
-                    - /var/lib/docker/volumes/${volumes.docker.container.id}/*-json.log
+                    - /var/lib/docker/volumes/${data.docker.container.id}/*-json.log
                     - /var/lib/docker/volumes/magento2-docker_dbdata/_data/*-slow.log
 
 processors:

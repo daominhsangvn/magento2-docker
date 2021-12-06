@@ -52,7 +52,7 @@ services:
         MYSQL_VERSION: $MYSQL_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./volumes/mysql:/var/lib/mysql
+      - ./mount/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
     expose:
@@ -76,7 +76,7 @@ services:
     expose:
       - "6379"
     volumes:
-      - ./volumes/redis:/data
+      - ./mount/redis:/data
     networks:
       - magento
     restart: unless-stopped
@@ -85,7 +85,7 @@ services:
     container_name: session
     image: redis
     volumes:
-      - ./volumes/session:/data
+      - ./mount/session:/data
     expose:
       - "6379"
     networks:
@@ -129,7 +129,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./volumes/elasticsearch:/usr/share/elasticsearch/data
+      - ./mount/elasticsearch:/usr/share/elasticsearch/data
     expose:
       - "9200"
     networks:
