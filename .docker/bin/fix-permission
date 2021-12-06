@@ -12,7 +12,7 @@ chmod -R 777 /var/www/
 #   chmod 777 /var/www/html/app/etc
 #   chmod 644 /var/www/html/app/etc/*.xml
 # fi
-# chown -R :www-data /var/www/html/
+# chown -R :www-volumes /var/www/html/
 if [ -e "/var/www/html/bin/magento" ]; then
   chmod u+x /var/www/html/bin/magento
 fi

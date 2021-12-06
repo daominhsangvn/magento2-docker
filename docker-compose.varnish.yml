@@ -85,7 +85,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - elasticsearchdata:/usr/share/elasticsearch/data
+      - elasticsearchdata:/usr/share/elasticsearch/volumes
     expose:
       - "9200"
     networks:
