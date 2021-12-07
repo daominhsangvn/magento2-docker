@@ -50,10 +50,10 @@ services:
       dockerfile: build/magento/mysql/Dockerfile
       args:
         MYSQL_VERSION: $MYSQL_VERSION
-    cap_add:
-      - SYS_NICE
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --general-log=1 --general-log-file=/var/log/mysql/general.log
     volumes:
       - dbdata:/var/lib/mysql
+      - ./logs/mysql/general.log:/var/log/mysql/general.log
     environment:
       - MYSQL_ROOT_PASSWORD=root
     expose:

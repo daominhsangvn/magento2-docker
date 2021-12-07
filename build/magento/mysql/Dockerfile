@@ -11,7 +11,7 @@ FROM mysql:${MYSQL_VERSION}
 #    chown mysql:mysql /var/log/mysql/error.log
 
 ADD ./build/magento/mysql/initdb/01-create-db.sql /docker-entrypoint-initdb.d
-ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
+#ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
 
 # forward mysql logs to docker log collector
 #RUN ln -sf /proc/1/fd/1 /var/lib/mysql/mysql-slow.log
@@ -19,4 +19,4 @@ ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
 EXPOSE 3306:3306
 EXPOSE 33060:33060
 
-CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+#CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
