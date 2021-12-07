@@ -8,7 +8,10 @@ RUN touch /var/log/mysql/general.log && \
     touch /var/log/mysql/error.log && \
     chown mysql:mysql /var/log/mysql/general.log && \
     chown mysql:mysql /var/log/mysql/mysql-slow.log && \
-    chown mysql:mysql /var/log/mysql/error.log
+    chown mysql:mysql /var/log/mysql/error.log && \
+    chmod 640 /var/log/mysql/general.log && \
+    chmod 640 /var/log/mysql/mysql-slow.log && \
+    chmod 640 /var/log/mysql/error.log
 
 ADD ./build/magento/mysql/initdb/01-create-db.sql /docker-entrypoint-initdb.d
 ADD ./build/magento/mysql/config-file.cnf /etc/mysql/conf.d
