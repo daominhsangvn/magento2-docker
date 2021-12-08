@@ -21,6 +21,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   beat:
     container_name: log-shipper
@@ -40,6 +42,8 @@ services:
       - LOGSTASH_HOST=$LOGSTASH_HOST
     networks:
       - magento
+    labels:
+      service_group: 'magento'
 
   db:
     container_name: database
@@ -51,8 +55,6 @@ services:
       args:
         MYSQL_VERSION: $MYSQL_VERSION
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    cap_add:
-      - SYS_NICE
     volumes:
       - dbdata:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
@@ -64,6 +66,7 @@ services:
       - magento
     labels:
       name: 'database'
+      service_group: 'magento'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -74,7 +77,7 @@ services:
 #    command: /bin/mysqld_exporter collect.binlog_size=true collect.info_schema.processlist=true
 
   redis:
-    container_name: redis
+    container_name: cache
     image: redis
     expose:
       - "6379"
@@ -83,6 +86,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   redis-session:
     container_name: session
@@ -94,6 +99,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   varnish:
     container_name: varnish
@@ -115,6 +122,8 @@ services:
     environment:
       - CACHE_SIZE=64M
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   elasticsearch:
     container_name: elasticsearch
@@ -138,6 +147,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   node-exporter:
     container_name: node-exporter
@@ -156,6 +167,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   cadvisor:
     container_name: cadvisor
@@ -170,6 +183,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
 networks:
   magento:
