@@ -22,7 +22,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      service_group: 'magento'
+      log_name: 'magento_apache'
 
   beat:
     container_name: log-shipper
@@ -43,7 +43,7 @@ services:
     networks:
       - magento
     labels:
-      service_group: 'magento'
+      log_name: 'magento_filebeat'
 
   db:
     container_name: database
@@ -66,7 +66,7 @@ services:
       - magento
     labels:
       name: 'database'
-      service_group: 'magento'
+      log_name: 'magento_mysql_database'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -87,7 +87,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      service_group: 'magento'
+      log_name: 'magento_redis_cache'
 
   redis-session:
     container_name: session
@@ -100,7 +100,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      service_group: 'magento'
+      log_name: 'magento_redis_session'
 
   varnish:
     container_name: varnish
@@ -123,7 +123,7 @@ services:
       - CACHE_SIZE=64M
     restart: unless-stopped
     labels:
-      service_group: 'magento'
+      log_name: 'magento_varnish'
 
   elasticsearch:
     container_name: elasticsearch
@@ -148,7 +148,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      service_group: 'magento'
+      log_name: 'magento_elasticsearch'
 
   node-exporter:
     container_name: node-exporter
@@ -167,8 +167,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      service_group: 'magento'
 
   cadvisor:
     container_name: cadvisor
@@ -183,8 +181,6 @@ services:
     networks:
       - magento
     restart: unless-stopped
-    labels:
-      service_group: 'magento'
 
 networks:
   magento:
