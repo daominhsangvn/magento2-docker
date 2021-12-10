@@ -1,6 +1,7 @@
 version: '3'
 services:
   apache:
+    container_name: apache
     build:
       context: .
       dockerfile: build/magento/apache/php-7.4/Dockerfile
@@ -21,10 +22,10 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_group: 'magento'
-      log_name: 'apache'
+      service_group: 'magento'
 
   beat:
+    container_name: log-shipper
     build:
       context: .
       dockerfile: build/magento/filebeat/Dockerfile
@@ -42,10 +43,10 @@ services:
     networks:
       - magento
     labels:
-      log_group: 'magento'
-      log_name: 'log-shipper'
+      service_group: 'magento'
 
   db:
+    container_name: database
     tty: true
     restart: always
     build:
@@ -64,8 +65,7 @@ services:
     networks:
       - magento
     labels:
-      log_group: 'magento'
-      log_name: 'database'
+      service_group: 'magento'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -86,8 +86,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_group: 'magento'
-      log_name: 'cache'
+      service_group: 'magento'
 
   redis-session:
     container_name: session
@@ -100,11 +99,10 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_group: 'magento'
-      log_name: 'session'
+      service_group: 'magento'
 
   varnish:
-    container_name: http-cache
+    container_name: varnish
     build:
       context: .
       dockerfile: build/magento/varnish/Dockerfile
@@ -124,11 +122,10 @@ services:
       - CACHE_SIZE=64M
     restart: unless-stopped
     labels:
-      log_group: 'magento'
-      log_name: 'varnish'
+      service_group: 'magento'
 
   elasticsearch:
-    container_name: search-index
+    container_name: elasticsearch
     build:
       context: .
       dockerfile: build/magento/elasticsearch/Dockerfile
@@ -150,8 +147,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_group: 'magento'
-      log_name: 'elasticsearch'
+      service_group: 'magento'
 
   node-exporter:
     container_name: node-exporter
@@ -170,6 +166,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
   cadvisor:
     container_name: cadvisor
@@ -184,6 +182,8 @@ services:
     networks:
       - magento
     restart: unless-stopped
+    labels:
+      service_group: 'magento'
 
 networks:
   magento:
