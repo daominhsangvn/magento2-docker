@@ -1,7 +1,7 @@
 version: '3'
 services:
   apache:
-    container_name: apache
+    container_name: webserver
     build:
       context: .
       dockerfile: build/magento/apache/php-7.4/Dockerfile
@@ -22,7 +22,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_name: 'magento_apache'
+      group: 'magento'
 
   beat:
     container_name: log-shipper
@@ -43,7 +43,7 @@ services:
     networks:
       - magento
     labels:
-      log_name: 'magento_filebeat'
+      group: 'magento'
 
   db:
     container_name: database
@@ -65,8 +65,7 @@ services:
     networks:
       - magento
     labels:
-      name: 'database'
-      log_name: 'magento_mysql_database'
+      group: 'magento'
 
 #  db-exporter:
 #    image: prom/mysqld-exporter
@@ -87,7 +86,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_name: 'magento_redis_cache'
+      group: 'magento'
 
   redis-session:
     container_name: session
@@ -100,10 +99,10 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_name: 'magento_redis_session'
+      group: 'magento'
 
   varnish:
-    container_name: varnish
+    container_name: http-cache
     build:
       context: .
       dockerfile: build/magento/varnish/Dockerfile
@@ -123,10 +122,10 @@ services:
       - CACHE_SIZE=64M
     restart: unless-stopped
     labels:
-      log_name: 'magento_varnish'
+      group: 'magento'
 
   elasticsearch:
-    container_name: elasticsearch
+    container_name: search-index
     build:
       context: .
       dockerfile: build/magento/elasticsearch/Dockerfile
@@ -148,7 +147,7 @@ services:
       - magento
     restart: unless-stopped
     labels:
-      log_name: 'magento_elasticsearch'
+      group: 'magento'
 
   node-exporter:
     container_name: node-exporter
