@@ -1,4 +1,8 @@
 version: '3'
+## NOTES:
+## `container_name` is being referenced in filebeat.yml and logstash. Be careful when update it
+## `labels.service_group` is being used in logstash as index prefix. => {labels.service_group}_{container_name}
+
 services:
   apache:
     container_name: apache

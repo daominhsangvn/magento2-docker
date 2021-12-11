@@ -39,7 +39,7 @@ filebeat.autodiscover:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
         - condition:
             equals:
-              docker.container.name: redis
+              docker.container.name: cache
           config:
             - module: redis
               log:
