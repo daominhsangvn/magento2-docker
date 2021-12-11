@@ -77,26 +77,31 @@ filebeat.autodiscover:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                  json.keys_under_root: true
               server:
                 input:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                  json.keys_under_root: true
               gc:
                 input:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                  json.keys_under_root: true
               deprecation:
                 input:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                  json.keys_under_root: true
               audit:
                 input:
                   type: container
                   paths:
                     - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
+                  json.keys_under_root: true
         - condition:
             equals:
               docker.container.name: database
