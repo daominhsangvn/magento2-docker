@@ -76,8 +76,8 @@ filebeat.autodiscover:
                 - /var/lib/docker/containers/${data.docker.container.id}/*-json.log
               tail_files: true
               json.add_error_key: true
-              json.overwrite_keys: true
-              json.keys_under_root: true
+#              json.keys_under_root: true
+              json.message_key: message
         - condition:
             equals:
               docker.container.name: database
